@@ -10,7 +10,6 @@ export default function NoteList({ notes }: NoteListProps) {
 
   return (
     <ul className={styles.list}>
-      {/* Набір елементів списку нотатків */}
       {notes.map((note) => (
         <li className={styles.listItem} key={note.id}>
           <h2 className={styles.title}>{note.title}</h2>
