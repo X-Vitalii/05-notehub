@@ -3,9 +3,10 @@ import type { Note } from "../../types/note";
 
 interface NoteListProps {
   notes: Note[];
+  onDelete: (id: number) => void;
 }
 
-export default function NoteList({ notes }: NoteListProps) {
+export default function NoteList({ notes, onDelete }: NoteListProps) {
   if (notes.length === 0) return null;
 
   return (
@@ -17,7 +18,9 @@ export default function NoteList({ notes }: NoteListProps) {
 
           <div className={styles.footer}>
             <span className={styles.tag}>{note.tag}</span>
-            <button className={styles.button}>Delete</button>
+            <button className={styles.button} onClick={() => onDelete(note.id)}>
+              Delete
+            </button>
           </div>
         </li>
       ))}

@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom";
 import { useEffect } from "react";
-import { Formik, Form } from "formik";
+import NoteForm from "../NoteForm/NoteForm";
 import styles from "./Modal.module.css";
 import type { Note } from "../../types/note";
 
@@ -34,14 +34,10 @@ export default function Modal({ onClose, children }: ModalProps) {
     }
   };
 
-  // return createPortal(
-  //     <Formik initialValues{{}} onSubmit={() => { }}>
-  //         <Form>
-  //             <div className={styles.backdrop} role="dialog" aria-modal="true">
-  //                 <div className={styles.modal}>{/* */}</div>
-  //             </div>
-  //         </Form>
-  //     </Formik>
-  //     modalRoot
-  // );
+  return createPortal(
+    <div className={styles.backdrop} role="dialog" aria-modal="true">
+      <div className={styles.modal}>{<NoteForm onClose={onClose} />}</div>
+    </div>,
+    modalRoot
+  );
 }

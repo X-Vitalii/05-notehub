@@ -1,5 +1,11 @@
 import { useState, useEffect, type ChangeEvent } from "react";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { deleteNote } from "../../services/noteService";
 import ReactPaginate from "react-paginate";
 import type { Note } from "../../types/note";
 import Modal from "../Modal/Modal";
@@ -16,6 +22,22 @@ import NoteList from "../NoteList/NoteList";
 import NoteForm from "../NoteForm/NoteForm";
 
 export default function App() {
+  const queryClient = useQueryClient();
+  const deleteNoteMutation = useMutation({
+    mutationFn: (id: number) => deleteNote(id),
+    onSuccess: () => {
+      console.log("mutation success");
+      toast.success("Note deleted");
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
+    },
+    onError: () => {
+      console.log("mutation error");
+      toast.error("Failed to delete note");
+    },
+  });
+  const handleDelete = (id: number) => {
+    deleteNoteMutation.mutate(id);
+  };
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
   const [debouncedValue] = useDebounce(query, 3000);
@@ -35,6 +57,7 @@ export default function App() {
 
   return (
     <>
+      <Toaster position="top-right" />
       <div className={styles.app}>
         <header className={styles.toolbar}>
           <SearchBox value={query} onChangeQuery={onChangeQuery} />
@@ -44,7 +67,9 @@ export default function App() {
             Create note +
           </button>
         </header>
-        {isSuccess && data.notes.length > 0 && <NoteList notes={data.notes} />}
+        {isSuccess && data.notes.length > 0 && (
+          <NoteList notes={data.notes} onDelete={handleDelete} />
+        )}
         {isModalOpen && (
           <Modal onClose={closeModal}>
             <NoteForm />

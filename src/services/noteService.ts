@@ -16,30 +16,17 @@ export async function fetchNotes(
   page: number
 ): Promise<NotesResponse> {
   const { data } = await axios.get<NotesResponse>("/notes", {
-    params: { page, ...(query && { search: query }) },
+    params: { page, search: query },
   });
   return data;
 }
 
-const newNote = {
-  title: "Next note",
-  content: "test",
-  tag: "Todo",
-};
-
 export async function createNote(newNote: AddNote) {
   const { data } = await axios.post<NotesResponse>("/notes", newNote);
-  // .then((response) => console.log(response.data.addNote.id)) // як повернути останню створену нотатку?
-  // .catch((error) => console.log(error));
-  return data; // як повернути останню створену нотатку?
+  return data;
 }
 
-const deleteId = 1;
-
-export function deleteNote(deleteId: number) {
-  axios
-    .delete(`/notes/${deleteId}`)
-    .then((response) => console.log(response.data))
-    .catch((error) => console.log(error));
-  return "1"; //повертає інформацію про видалену нотатку у відповіді
+export async function deleteNote(deleteId: number) {
+  const { data } = await axios.delete(`/notes/${deleteId}`);
+  return data; //повертає інформацію про видалену нотатку у відповіді
 }
