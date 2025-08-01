@@ -1,13 +1,29 @@
-import React from "react";
-import ReactDOM from "react-dom";
 import ReactPaginate from "react-paginate";
+import styles from "./Pagination.module.css";
 
 interface PaginationProps {
-  onSubmit: (query: string) => void;
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (selectedPage: number) => void;
 }
 
-const [currentPage, setCurrentPage] = useState(1);
-
-const queryData = useQuery({
-  queryKey: ["articles", topic, currentPage],
-});
+export default function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: PaginationProps) {
+  return (
+    <ReactPaginate
+      breakLabel="..."
+      nextLabel="→"
+      onPageChange={(event) => onPageChange(event.selected + 1)}
+      pageRangeDisplayed={3}
+      marginPagesDisplayed={1}
+      pageCount={totalPages}
+      previousLabel="←"
+      forcePage={currentPage - 1}
+      containerClassName={styles.pagination}
+      activeClassName={styles.active}
+    />
+  );
+}

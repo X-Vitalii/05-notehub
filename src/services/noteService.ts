@@ -13,10 +13,11 @@ interface NotesResponse {
 
 export async function fetchNotes(
   query: string,
-  page: number
+  page: number,
+  perPage = 12
 ): Promise<NotesResponse> {
   const { data } = await axios.get<NotesResponse>("/notes", {
-    params: { page, search: query },
+    params: { page, perPage, search: query },
   });
   return data;
 }
@@ -28,5 +29,5 @@ export async function createNote(newNote: AddNote) {
 
 export async function deleteNote(deleteId: number) {
   const { data } = await axios.delete(`/notes/${deleteId}`);
-  return data; //повертає інформацію про видалену нотатку у відповіді
+  return data;
 }

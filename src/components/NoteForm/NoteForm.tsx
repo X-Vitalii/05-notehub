@@ -50,73 +50,82 @@ export default function NoteForm({ onClose }: NoteFormProps) {
       validationSchema={NoteValidationSchema}
       onSubmit={handleSubmit}
     >
-      <Form className={styles.form}>
-        <fieldset className={styles.formGroup}>
-          {/* field title */}
-          <label htmlFor={`${fieldID}-title`}>Title</label>
-          <Field
-            id={`${fieldID}-title`}
-            type="text"
-            name="title"
-            className={styles.input}
-          />
-          <ErrorMessage
-            component="span"
-            name="title"
-            className={styles.error}
-          />
+      {({ resetForm }) => (
+        <Form className={styles.form}>
+          <fieldset className={styles.formGroup}>
+            {/* field title */}
+            <label htmlFor={`${fieldID}-title`}>Title</label>
+            <Field
+              id={`${fieldID}-title`}
+              type="text"
+              name="title"
+              className={styles.input}
+            />
+            <ErrorMessage
+              component="span"
+              name="title"
+              className={styles.error}
+            />
 
-          {/* field CONTENT */}
-          <label htmlFor={`${fieldID}-content`}>Content</label>
-          <Field
-            as="textarea"
-            id={`${fieldID}-content`}
-            name="content"
-            rows={8}
-            className={styles.textarea}
-          />
-          <ErrorMessage
-            component="span"
-            name="content"
-            className={styles.error}
-          />
+            {/* field CONTENT */}
+            <label htmlFor={`${fieldID}-content`}>Content</label>
+            <Field
+              as="textarea"
+              id={`${fieldID}-content`}
+              name="content"
+              rows={8}
+              className={styles.textarea}
+            />
+            <ErrorMessage
+              component="span"
+              name="content"
+              className={styles.error}
+            />
 
-          {/* field TAG */}
-          <label htmlFor={`${fieldID}-tag`}>Tag</label>
-          <Field
-            as="select"
-            id={`${fieldID}-tag`}
-            name="tag"
-            className={styles.select}
-          >
-            <option value="Todo">Todo</option>
-            <option value="Work">Work</option>
-            <option value="Personal">Personal</option>
-            <option value="Meeting">Meeting</option>
-            <option value="Shopping">Shopping</option>
-          </Field>
-          <ErrorMessage component="span" name="tag" className={styles.error} />
-        </fieldset>
-        <fieldset className={styles.actions}>
-          {/* CANCEL button */}
-          <button
-            type="button"
-            className={styles.cancelButton}
-            onClick={onClose}
-          >
-            Cancel
-          </button>
-          {/* CREATE NOTE button */}
-          <button
-            type="submit"
-            className={styles.submitButton}
-            disabled={false}
-          >
-            Create note
-          </button>
-        </fieldset>
-        ;
-      </Form>
+            {/* field TAG */}
+            <label htmlFor={`${fieldID}-tag`}>Tag</label>
+            <Field
+              as="select"
+              id={`${fieldID}-tag`}
+              name="tag"
+              className={styles.select}
+            >
+              <option value="Todo">Todo</option>
+              <option value="Work">Work</option>
+              <option value="Personal">Personal</option>
+              <option value="Meeting">Meeting</option>
+              <option value="Shopping">Shopping</option>
+            </Field>
+            <ErrorMessage
+              component="span"
+              name="tag"
+              className={styles.error}
+            />
+          </fieldset>
+          <fieldset className={styles.actions}>
+            {/* CANCEL button */}
+            <button
+              type="button"
+              className={styles.cancelButton}
+              onClick={() => {
+                resetForm();
+                onClose();
+              }}
+            >
+              Cancel
+            </button>
+            {/* CREATE NOTE button */}
+            <button
+              type="submit"
+              className={styles.submitButton}
+              disabled={false}
+            >
+              Create note
+            </button>
+          </fieldset>
+          ;
+        </Form>
+      )}
     </Formik>
   );
 }
