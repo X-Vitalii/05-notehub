@@ -1,12 +1,33 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
 import styles from "./NoteList.module.css";
 import type { Note } from "../../types/note";
 
 interface NoteListProps {
   notes: Note[];
-  onDelete: (id: number) => void;
 }
 
-export default function NoteList({ notes, onDelete }: NoteListProps) {
+export default function NoteList({ notes }: NoteListProps) {
+  const queryClient = useQueryClient();
+
+  const deleteNoteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { deleteNote } = await import("../../services/noteService");
+      return deleteNote(id);
+    },
+    onSuccess: () => {
+      toast.success("Note deleted");
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
+    },
+    onError: () => {
+      toast.error("Failed to delete note");
+    },
+  });
+
+  const handleDelete = (id: string) => {
+    deleteNoteMutation.mutate(id);
+  };
+
   if (notes.length === 0) return null;
 
   return (
@@ -18,8 +39,12 @@ export default function NoteList({ notes, onDelete }: NoteListProps) {
 
           <div className={styles.footer}>
             <span className={styles.tag}>{note.tag}</span>
-            <button className={styles.button} onClick={() => onDelete(note.id)}>
-              Delete
+            <button
+              className={styles.button}
+              onClick={() => handleDelete(note.id)}
+              disabled={deleteNoteMutation.isPending}
+            >
+              {deleteNoteMutation.isPending ? "Deleting ..." : "Delete"}
             </button>
           </div>
         </li>
