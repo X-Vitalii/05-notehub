@@ -12,7 +12,6 @@ import styles from "./App.module.css";
 
 export default function App() {
   const PER_PAGE = 12;
-  // const queryClient = useQueryClient();
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
   const [debouncedValue] = useDebounce(query, 3000);
@@ -25,24 +24,6 @@ export default function App() {
   });
 
   const totalPages = data?.totalPages ?? 0;
-
-  // const deleteNoteMutation = useMutation({
-  //   mutationFn: (id: string) => deleteNote(id),
-  //   onSuccess: () => {
-  //     console.log("mutation success");
-  //     toast.success("Note deleted");
-  //     queryClient.invalidateQueries({
-  //       queryKey: ["notes", debouncedValue, page],
-  //     });
-  //   },
-  //   onError: () => {
-  //     toast.error("Failed to delete note");
-  //   },
-  // });
-
-  // const handleDelete = (id: string) => {
-  //   deleteNoteMutation.mutate(id);
-  // };
 
   const onChangeQuery = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);

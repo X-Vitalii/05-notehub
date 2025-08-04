@@ -1,6 +1,5 @@
 import { createPortal } from "react-dom";
 import { useEffect } from "react";
-// import NoteForm from "../NoteForm/NoteForm";
 import styles from "./Modal.module.css";
 import type { Note } from "../../types/note";
 

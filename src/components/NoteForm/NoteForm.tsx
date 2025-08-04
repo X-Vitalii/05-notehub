@@ -18,7 +18,7 @@ const initialValues: AddNote = {
 
 const NoteValidationSchema = Yup.object().shape({
   title: Yup.string()
-    .min(3, "Keep at least 2 characters")
+    .min(3, "Keep at least 3 characters")
     .max(50, "Keep not more than 50 characters")
     .required("title is required"),
   content: Yup.string().max(500, "Keep not more than 50 characters"),
@@ -123,7 +123,6 @@ export default function NoteForm({ onClose }: NoteFormProps) {
               Create note
             </button>
           </fieldset>
-          ;
         </Form>
       )}
     </Formik>

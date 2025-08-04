@@ -5,7 +5,6 @@ import type { Note } from "../../types/note";
 
 interface NoteListProps {
   notes: Note[];
-  // onDelete: (id: string) => void;
 }
 
 export default function NoteList({ notes }: NoteListProps) {
@@ -44,9 +43,7 @@ export default function NoteList({ notes }: NoteListProps) {
               className={styles.button}
               // onClick={() => onDelete(note.id)}
               onClick={() => handleDelete(note.id)}
-              // disabled={deleteNoteMutation.isPending}
             >
-              {/* {deleteNoteMutation.isPending ? "Deleting ..." : "Delete"} */}
               Delete
             </button>
           </div>
