@@ -1,10 +1,8 @@
 import { createPortal } from "react-dom";
 import { useEffect } from "react";
 import styles from "./Modal.module.css";
-import type { Note } from "../../types/note";
 
 interface ModalProps {
-  note?: Note;
   onClose: () => void;
   children: React.ReactNode;
 }
